@@ -61,6 +61,19 @@ public class Knapsack {
             }
             System.err.println();
         }
+        System.out.println("************elems are these:**********");
+        int i = N.length;
+        int j = V;
+        while (i > 0 && j > 0) {
+            //j-cost[i]>=0保证边界安全问题
+            //f[i][j] == (f[i - 1][j - cost[i]] + value[i]相等证明里面有
+            if (j - cost[i] >= 0 && f[i][j] == (f[i - 1][j - cost[i]] + value[i])) {
+                System.out.println(value[i]);
+                j = j - cost[i];
+            }
+            //因为01问题，要么放要么不放，每次都会跳过
+            i--;
+        }
         return knapsack;
     }
 
@@ -82,8 +95,10 @@ public class Knapsack {
         for (int i = 0; i < V + 1; i++) {
             dp[i] = 0;
         }
+        //一维数组也可以添加路径信息，但是无法最后根据一维来查找，必须边添加边记录
         for (int i = 0; i < countOfThings + 1; i++) {
             for (int j = V; j > 0; j--) {
+                //逆向解
                 dp[j] = cost[i] <= j ? max(dp[j], dp[j - cost[i]] + value[i]) : dp[j];
             }
         }
@@ -97,10 +112,10 @@ public class Knapsack {
     }
 
     public static void main(String[] args) {
-        int[] value = {0, 4, 5, 5, 100, 100};
+        int[] value = {0, 48, 7, 40, 12, 8};
         int[] N = {1, 2, 3, 4, 5};
-        int[] cost = {0, 4, 5, 5, 100, 100};
-        int V = 107;
-        maxValueInLessSpace(N, V, cost, value);
+        int[] cost = {0, 6, 1, 5, 2, 1};
+        int V = 8;
+        maxValue(N, V, cost, value);
     }
 }
