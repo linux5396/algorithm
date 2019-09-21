@@ -2,6 +2,7 @@ package com.linxu.algorithm.bydate.date190921;
 
 import com.linxu.algorithm.CostSpace;
 import com.linxu.algorithm.CostTime;
+import com.linxu.algorithm.Recommend;
 
 /**
  * @author linxu
@@ -29,7 +30,7 @@ public class Knapsack {
     @CostSpace("O(N*V)")
     @CostTime("O(N*V)")
     //TODO 0-1背包中的特殊例子，就是value与cost对等的情况下，还存在偶数优化情况：采用排序加取对
-    //TODO 二维是否能够采用一维表示，也存在优化情况
+    //TODO 二维是否能够采用一维表示，也存在优化情况（从空间花费从大到小来构成for循环的话，就可以直接用一维数组来保存物品数-1 的值。）
     public static int[] maxValue(int[] N, int V, int[] cost, int[] value) {
         //TODO  solve special cases.
         int countOfThings = N.length;
@@ -63,6 +64,34 @@ public class Knapsack {
         return knapsack;
     }
 
+    /**
+     * 逆向背包，节省空间
+     *
+     * @param N     N个
+     * @param V     容量
+     * @param cost  花费
+     * @param value 价值
+     */
+    @CostSpace("O(V)")
+    @CostTime("O(N*V)")
+    @Recommend
+    public static void maxValueInLessSpace(int[] N, int V, int[] cost, int[] value) {
+        int countOfThings = N.length;
+        int[] dp = new int[V + 1];
+        //初始化
+        for (int i = 0; i < V + 1; i++) {
+            dp[i] = 0;
+        }
+        for (int i = 0; i < countOfThings + 1; i++) {
+            for (int j = V; j > 0; j--) {
+                dp[j] = cost[i] <= j ? max(dp[j], dp[j - cost[i]] + value[i]) : dp[j];
+            }
+        }
+        for (int i = 0; i < V + 1; i++) {
+            System.out.println(dp[i]);
+        }
+    }
+
     private static int max(int first, int second) {
         return first > second ? first : second;
     }
@@ -72,6 +101,6 @@ public class Knapsack {
         int[] N = {1, 2, 3, 4, 5};
         int[] cost = {0, 4, 5, 5, 100, 100};
         int V = 107;
-        maxValue(N, V, cost, value);
+        maxValueInLessSpace(N, V, cost, value);
     }
 }
