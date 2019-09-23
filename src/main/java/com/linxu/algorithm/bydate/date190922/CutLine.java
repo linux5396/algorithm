@@ -68,6 +68,10 @@ public class CutLine {
         }
     }
 
+    /**
+     * @param N
+     * @return
+     */
     public static int dpMaxProduct(int N) {
         //solve special case
         if (N < 2) {
@@ -80,7 +84,6 @@ public class CutLine {
             return 2;
         }
         int[] dp = new int[N + 1];
-//TODO
 //好多人定义product数组的时候，解释product[0]- producdt[3]中存储的是各段乘机的最大值，(⊙o⊙)…我感觉不是吧！
 //这道题目的临界点其实是4，也就是说4以下的其实不论怎么分，成绩都不可能比自身的数大！那么此时存储的其实是最大的值
 // 不一定是乘法最大值
@@ -100,14 +103,40 @@ public class CutLine {
                 dp[i] = max;
             }
         }
-        max=dp[N];
-        for (int a:dp) {
-            System.err.print(a+"    ");
+        max = dp[N];
+        for (int a : dp) {
+            System.err.print(a + "    ");
         }
         return max;
     }
 
+    /**
+     * 添加贪婪法解决
+     * @param N
+     * @return
+     */
+    public static int greedMaxProduct(int N) {
+        //solve special case
+        if (N < 2) {
+            return 0;
+        }
+        if (N == 2) {
+            return 1;
+        }
+        if (N == 3) {
+            return 2;
+        }
+        int timesOf3 = N / 3;
+        int timesOf2 = 0;
+        if (N - timesOf3 * 3 == 1) {
+            timesOf3--;
+        }
+        timesOf2 = (N - timesOf3 * 3) >> 1;
+        return (int) Math.pow(3, timesOf3) * (int) Math.pow(2, timesOf2);
+    }
+
     public static void main(String[] args) {
         System.out.println(dpMaxProduct(5));
+        System.out.println(greedMaxProduct(8));
     }
 }
