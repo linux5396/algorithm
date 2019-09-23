@@ -1,5 +1,8 @@
 package com.linxu.algorithm.bydate.date190917;
 
+import com.linxu.algorithm.CostTime;
+import com.linxu.algorithm.Recommend;
+
 import java.text.NumberFormat;
 
 /**
@@ -33,6 +36,7 @@ public class SearchNo1 {
         return counter;
     }
 
+    @CostTime("32")
     public static int bitCompute(int n) {
         int count = 0;
         //java中负数会自动转为补码
@@ -44,9 +48,28 @@ public class SearchNo1 {
         return count;
     }
 
+    /**
+     * 极致位运算
+     *
+     * @param n N
+     * @return bits numbers
+     */
+    @CostTime("<32")
+    @Recommend
+    public static int bitSmartCompute(int n) {
+        int count = 0;
+        while (n != 0) {
+            ++count;
+            //N与上N-1，会把最右边的1变成0，因此，该算法的复杂度在于1个个数，而不是固定的32
+            n = n & (n - 1);
+        }
+        return count;
+    }
+
     public static void main(String[] args) {
-       // System.out.println(bitCompute(-1));
-        int test=-1;
-        System.out.println(Integer.toBinaryString(test&0XFFFFFFFF));
+        // System.out.println(bitCompute(-1));
+        int test = -1;
+        System.out.println(Integer.toBinaryString(test & 0XFFFFFFFF));
+        System.err.println(bitSmartCompute(-1));
     }
 }
