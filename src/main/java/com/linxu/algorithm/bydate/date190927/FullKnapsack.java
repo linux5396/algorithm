@@ -37,6 +37,21 @@ public class FullKnapsack {
             }
             System.err.println();
         }
+        /*boolean[] path = new boolean[N.length + 1];
+        //error
+        for (int i = N.length, j = V; i > 0; i--) {
+            if (dp[i][j] > dp[i - 1][j]) {
+                path[i] = true;
+                j -= cost[i];
+            } else {
+                path[i] = false;
+            }
+        }
+        for (int i = 0; i < path.length; i++) {
+            if (path[i]) {
+                System.out.println(value[i]);
+            }
+        }*/
         return 0;
     }
 
@@ -48,12 +63,13 @@ public class FullKnapsack {
         //背包
         int[] dp = new int[V + 1];
         for (int i = 1; i <= N.length; i++) {
+            //采用正序
             for (int j = cost[i]; j <= V; j++) {
                 dp[j] = max(dp[j], dp[j - cost[i]] + value[i]);
             }
         }
-        for (int i = 0; i < V+1; i++) {
-            System.out.printf("%-5d",dp[i]);
+        for (int i = 0; i < V + 1; i++) {
+            System.out.printf("%-5d", dp[i]);
         }
         return 0;
     }
@@ -75,8 +91,8 @@ public class FullKnapsack {
 
     public static void main(String[] args) {
         int[] N = {1, 2, 3, 4, 5};
-        int[] cost = {0, 6, 1, 5, 2, 3};
-        int[] value = {0, 48, 7, 40, 12, 8};
+        int[] cost = {0, 6, 2, 1, 2, 3};
+        int[] value = {0, 48, 8, 7, 12, 8};
         int V = 9;
         maxValue(N, cost, value, V);
         try {
@@ -85,6 +101,6 @@ public class FullKnapsack {
             e.printStackTrace();
         }
         System.out.println("******************************");
-        maxValueInSingleArray(N,cost,value,V);
+        maxValueInSingleArray(N, cost, value, V);
     }
 }
