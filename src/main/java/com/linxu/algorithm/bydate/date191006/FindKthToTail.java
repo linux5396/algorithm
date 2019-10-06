@@ -20,8 +20,7 @@ public class FindKthToTail {
         //solve normal case. using twin pointer way.
         Node slow = head;
         Node fast = slow;
-        for (int i = 0; i < k; ) {
-            i++;
+        for (int i = 1; i < k; i++) {
             if (fast.getNext() != null) {
                 fast = fast.getNext();
                 //第K个结点刚好是最后一个，即倒数第K个是第一个
@@ -54,9 +53,11 @@ public class FindKthToTail {
 
         System.out.println(find(head, 3).getValue());
 
+        //print
         while (head.getNext() != null) {
             System.err.printf("%-5d", head.getValue());
             head = head.getNext();
         }
+        System.err.printf("%-5d",head.getValue());
     }
 }
