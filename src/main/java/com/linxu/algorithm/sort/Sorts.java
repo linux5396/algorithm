@@ -22,6 +22,7 @@ public class Sorts {
         //normal
         quickSort(elems, 0, elems.length - 1);
     }
+
     private static void quickSort(int[] elems, int start, int end) {
         if (start == end) {
             return;
@@ -191,19 +192,18 @@ public class Sorts {
             }
             swap(array, i, minIdx);
         }
-
     }
 
     /**********************递归归并排序************************/
     @CostTime("O(avg NlogN   worst NlogN)")
-    @CostSpace("递归：O(N + LogN)， 非递归：O（N）")
+    @CostSpace("递归：O(N + LogN(递归调用栈所消耗的空间))")
     //是稳定的算法，不会在大数下出现较大浮动
     public static void mergeSort(int[] array) {
         //solve special case.
         if (array == null) {
             return;
         }
-        mergeSortImpl(array,0,array.length-1);
+        mergeSortImpl(array, 0, array.length - 1);
     }
 
     private static void mergeSortImpl(int[] nums, int left, int right) {
@@ -245,6 +245,43 @@ public class Sorts {
         System.arraycopy(tempArray, 0, nums, left, tempArray.length);
     }
 
+    /**
+     *
+     * @param array
+     */
+    @Recommend
+    @CostTime("O(avg NlogN   worst NlogN)")
+    @CostSpace("非递归：O（N）")
+    //归并非递归排序
+    public static void mergeSortNotRecursive(int[] array) {
+        //solve special case.
+        if (array == null) {
+            return;
+        }
+        //定义步长
+        int stepLength = 1;
+        while (stepLength < array.length) {
+            mergePass(array, stepLength);
+            stepLength <<= 1;
+        }
+    }
+
+    private static void mergePass(int[] array, int stepLength) {
+        int start = 0;
+        while (start + (stepLength << 1) - 1 < array.length) {
+            int middle = start + stepLength - 1;
+            int end = start + (stepLength << 1) - 1;
+            merge(array, start, middle, end);
+            start += (stepLength << 1);
+        }
+        //剩下的无法进行分组，也要进行处理
+        if (start + stepLength - 1 < array.length) {
+            merge(array, start, start + stepLength - 1, array.length - 1);
+        }
+    }
+
+
+    //TEST
     public static void main(String[] args) {
         int[] arr = {7, 9, 2, 4, 1, 54};
         quickSort(arr, 0, arr.length - 1);
@@ -253,15 +290,15 @@ public class Sorts {
         }
         System.out.println();
         GenerationUtil.pause();
+        System.out.println();
         int[] arr1 = {7, 9, 2, 4, 1, 54};
         quickSortInStack(arr1);
         for (int i = 0; i < arr1.length; i++) {
             System.err.print(arr1[i] + " ");
         }
         GenerationUtil.pause();
-        System.out.println();
-        int[] arr2 = {7, 9, 2, 4, 1, 54};
-        mergeSort(arr2);
+        int[] arr2 = {9, 7, 2, 4, 1, 54};
+        mergeSortNotRecursive(arr2);
         GenerationUtil.print(arr2, false);
     }
 }
