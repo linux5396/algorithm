@@ -10,6 +10,11 @@ import java.util.LinkedList;
  * <tip>take care of yourself.everything is no in vain.</tip>
  * 问题：
  * 将二叉搜索树转换为排序的双向链表，不允许创建新的节点，只允许改变指针。
+ * <p>
+ *     其实二叉搜索树的实质就是二叉排序链，而二叉搜索树的多个子root其实相当于
+ *     二叉排序链的节点索引，利用root来进行二分查找。
+ *     (直接的二叉排序链是无法进行二分查找的)
+ * </p>
  */
 public class ConvertBinarySortTreeToDoubleList {
     TreeNode tail = null;  //定义链表的最后一个节点
