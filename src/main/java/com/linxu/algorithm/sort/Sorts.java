@@ -246,7 +246,6 @@ public class Sorts {
     }
 
     /**
-     *
      * @param array
      */
     @Recommend
@@ -280,6 +279,40 @@ public class Sorts {
         }
     }
 
+    /****************************插入排序***************************/
+    public static void insertSort(int[] nums) {
+        if (nums != null && nums.length != 0) {
+            sortByMove(nums);
+        }
+    }
+
+    private static void sort(int[] array) {
+        for (int i = 1; i < array.length; i++) {
+            for (int j = i; j > 0; j--) {
+                //通过多次的交换来插入待排元素
+                if (array[j] < array[j - 1]) {
+                    int t = array[j - 1];
+                    array[j - 1] = array[j];
+                    array[j] = t;
+                }
+            }
+        }
+    }
+
+    private static void sortByMove(int[] array) {
+        for (int i = 1; i < array.length; i++) {
+            int temp = array[i];
+            int j;
+            for (j = i; j > 0 && array[j - 1] > temp; j--) {
+                //通过向后移动元素来插入待排元素
+                array[j] = array[j - 1];
+            }
+            array[j] = temp;
+        }
+    }
+
+
+
 
     //TEST
     public static void main(String[] args) {
@@ -298,7 +331,8 @@ public class Sorts {
         }
         GenerationUtil.pause();
         int[] arr2 = {9, 7, 2, 4, 1, 54};
-        mergeSortNotRecursive(arr2);
+       // mergeSortNotRecursive(arr2);
+        insertSort(arr2);
         GenerationUtil.print(arr2, false);
     }
 }
