@@ -64,6 +64,7 @@ public class FindTheLeastK {
     /**
      * 使用“容器”技术来处理，可以在不修改原本数组的基础上
      * 效率为O(NlogK)
+     * //TODO 这个可以算作简历上处理大数据的一个算法
      * 特点：不需要修改原本数值；第二个特点，可以创建较小的堆内存，然后每次从磁盘读取一个数值，适合处理大数据
      *
      * @param arr arr
@@ -76,7 +77,7 @@ public class FindTheLeastK {
             return null;
         }
         int[] container = new int[k];
-        //first row add without check full status.
+        //first round add without check full status.
         for (int i = 0; i < k; i++) {
             System.arraycopy(arr, 0, container, 0, k);
         }
