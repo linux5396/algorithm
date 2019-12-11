@@ -1,7 +1,5 @@
 package com.linxu.algorithm.utils;
 
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author linxu
@@ -86,6 +84,15 @@ public class GenerationUtil {
                     System.out.printf("%-4d", n);
                 }
             }
+        }
+    }
+
+    public static void print(int[][] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[0].length; j++) {
+                System.out.print(arr[i][j]+",");
+            }
+            System.out.println("");
         }
     }
 
