@@ -50,6 +50,7 @@ public class ColorSort {
                 low++;
                 middle++;
             } else if (colors[middle] == 2) {
+                //为何mid指向2，交换之后mid不走，原因就是mid交换之后，不知道这个新元素的大小是0 1 还是2 需要继续判断
                 GenerationUtil.swap(colors, middle, high);
                 high--;
             } else {
