@@ -35,6 +35,11 @@ public class ColorSort {
         if (colors == null || colors.length == 0) {
             return null;
         }
+        //三色排序的实际思想
+        //三个指针  left middle high
+        //left的右位middle  middle的右为high
+        //mid指向1  mid继续走，mid指向0，那么与left交换，mid继续走
+        //mid指向2，与high交换，mid不走
         int low = 0;
         int middle = 0;
         int high = colors.length - 1;

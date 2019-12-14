@@ -162,6 +162,13 @@ public class GenerationUtil {
             array[idx2] = temp;
         }
     }
+    public static void swap(int[] array, int idx1, int idx2) throws ArrayIndexOutOfBoundsException {
+        if (array != null) {
+            int temp = array[idx1];
+            array[idx1] = array[idx2];
+            array[idx2] = temp;
+        }
+    }
     /*******************素数判断********************/
     /**
      * using enum
