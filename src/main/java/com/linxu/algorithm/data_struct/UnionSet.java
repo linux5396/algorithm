@@ -54,6 +54,9 @@ public class UnionSet {
         if (weightOfSet1 >= weightOfSet2) {
             nodeAndLeader.put(leader2, leader1);
             nodeAndWeight.put(leader1, weightOfSet1 + weightOfSet2);
+        }else {
+            nodeAndLeader.put(leader1, leader2);
+            nodeAndWeight.put(leader2, weightOfSet1 + weightOfSet2);
         }
     }
 
