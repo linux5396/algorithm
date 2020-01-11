@@ -1,5 +1,7 @@
 package com.linxu.algorithm.memorymanage;
 
+import lombok.val;
+
 import java.util.*;
 
 
@@ -49,6 +51,19 @@ public class LRUCache<K, V> {
             put(key, val);
             return val;
         }
+    }
+
+    public void resize(int newCapacity) {
+        if (newCapacity < 1) {
+            throw new IllegalArgumentException("newCapacity can not be less than 1");
+        }
+        //只有容量减少才需要操作
+        if (newCapacity < capacity) {
+            for (int i = capacity - newCapacity; i >= 0; i--) {
+                removeLast();
+            }
+        }
+        capacity = newCapacity;
     }
 
     public void put(K key, V val) {
