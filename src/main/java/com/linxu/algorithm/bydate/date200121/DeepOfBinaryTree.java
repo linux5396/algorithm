@@ -34,15 +34,9 @@ public class DeepOfBinaryTree {
     private void travel(TreeNode root, int[] curDeep, int[] maxDeep) {
         if (root != null) {
             curDeep[0]++;
-            if (maxDeep[0] < curDeep[0]) {
-                maxDeep[0] = curDeep[0];
-            }
-            if (root.left != null) {
-                travel(root.left, curDeep, maxDeep);
-            }
-            if (root.right != null) {
-                travel(root.right, curDeep, maxDeep);
-            }
+            maxDeep[0] = maxDeep[0] < curDeep[0] ? curDeep[0] : maxDeep[0];
+            travel(root.left, curDeep, maxDeep);
+            travel(root.right, curDeep, maxDeep);
             //回溯
             curDeep[0]--;
         }
