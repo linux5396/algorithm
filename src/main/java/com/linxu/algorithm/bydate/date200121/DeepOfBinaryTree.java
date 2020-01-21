@@ -20,9 +20,6 @@ public class DeepOfBinaryTree {
     }
 
     public int TreeDepth(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
         int[] maxDeep = new int[1];
         maxDeep[0] = 0;
         int[] curDeep = new int[1];
