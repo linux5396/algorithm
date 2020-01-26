@@ -36,6 +36,25 @@ public class ReverseStr {
         return new String(reverseText);
     }
 
+    public static String leftRotate(String text, int leftLength) {
+        //special
+        if (text == null) {
+            return null;
+        }
+        if (leftLength > text.length()) {
+            return text;
+        }
+        char[] reverseText = new char[text.length()];
+        for (int i = 0; i < text.length(); i++) {
+            reverseText[i] = text.charAt(i);
+        }
+        reverse(reverseText, 0, leftLength - 1);
+        reverse(reverseText, leftLength, reverseText.length - 1);
+        //all reverse
+        reverse(reverseText, 0, reverseText.length - 1);
+        return new String(reverseText);
+    }
+
     private static void reverse(char[] chars, int start, int end) {
         while (start < end) {
             char tempChar = chars[start];
@@ -48,5 +67,6 @@ public class ReverseStr {
 
     public static void main(String[] args) {
         System.out.println(reverse("I am student."));
+        System.out.println(leftRotate("abcdefg",2));
     }
 }
