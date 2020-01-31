@@ -12,24 +12,24 @@ import java.util.Map;
 public class UnionSet {
     private final Map<String, String> nodeAndLeader = new HashMap<>();
     private final Map<String, Integer> nodeAndWeight = new HashMap<>();
-    private static final int baseWeight = 1;
+    private static final int BASE_WEIGHT = 1;
 
     public void makeSet(String[] nodes) {
         if (nodes == null || nodes.length == 0) {
             return;
         }
-        for (int i = 0; i < nodes.length; i++) {
-            makeSet(nodes[i]);
+        for (String node : nodes) {
+            makeSet(node);
         }
     }
 
     private void makeSet(String node) {
         nodeAndLeader.put(node, node);
-        nodeAndWeight.put(node, baseWeight);
+        nodeAndWeight.put(node, BASE_WEIGHT);
     }
 
     public boolean isSameSet(String node1, String node2) {
-        return getLeader(node1) == getLeader(node2);
+        return getLeader(node1).equals(getLeader(node2));
     }
 
     /**
@@ -38,7 +38,7 @@ public class UnionSet {
     private String getLeader(String node) {
         String father = nodeAndLeader.get(node);
         //recursive
-        if (father != node) {
+        if (!father.equals(node)) {
             father = getLeader(father);
         }
         nodeAndLeader.put(node, father);

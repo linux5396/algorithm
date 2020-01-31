@@ -79,6 +79,7 @@ public class Heap<T extends Comparable<? super T>> {
      *
      * @param capacity the capacity of the binary heap.
      */
+    @SuppressWarnings("unchecked")
     public Heap(int capacity, Comparator<? super T> comparator) {
         currentSize = 0;
         array = (T[]) new Comparable[capacity + 1];
@@ -88,6 +89,7 @@ public class Heap<T extends Comparable<? super T>> {
     /**
      * Construct the binary heap given an array of items.
      */
+    @SuppressWarnings("unchecked")
     public Heap(T[] items, Comparator<? super T> comparator) {
         currentSize = items.length;
         array = (T[]) new Comparable[(currentSize + 2) * 11 / 10];
@@ -127,6 +129,7 @@ public class Heap<T extends Comparable<? super T>> {
      *
      * @param newSize 新的容器大小
      */
+    @SuppressWarnings("unchecked")
     private void enlargeArray(int newSize) {
         T[] old = array;
         array = (T[]) new Comparable[newSize];
@@ -209,7 +212,7 @@ public class Heap<T extends Comparable<? super T>> {
     }
 
     /**
-     * Test if the priority queue is logically empty.
+     * BinarySearch if the priority queue is logically empty.
      *
      * @return true if empty, false otherwise.
      */
@@ -220,13 +223,14 @@ public class Heap<T extends Comparable<? super T>> {
     /**
      * Make the priority queue logically empty.
      */
+    @SuppressWarnings("unchecked")
     public void clear() {
         currentSize = 0;
         array = (T[]) new Comparable[DEFAULT_CAPACITY];
     }
 
 
-    // Test program
+    // BinarySearch program
     public static void main(String[] args) {
         Integer[] integers = {19, 13, 16, 14, 18};
         Heap<Integer> heap = new Heap<Integer>(integers, (o1, o2) -> (o2 - o1));
@@ -234,8 +238,7 @@ public class Heap<T extends Comparable<? super T>> {
         heap.insert(13);
         heap.insert(16);
         heap.insert(14);
-        heap.insert(18);
-*/
+        heap.insert(18);*/
         for (int i = 0; i < 5; i++) {
             System.err.println(heap.poll());
         }

@@ -57,6 +57,9 @@ public class SkipList<T extends Comparable<? super T>> {
         return k;
     }
 
+
+
+
     public SkipListNode search(T value) {
         SkipListNode node = top;
         int sum = 0;
@@ -171,11 +174,11 @@ public class SkipList<T extends Comparable<? super T>> {
     public static void main(String[] args) {
         long startTime = 0;
         long endTime = 0;
-        SkipList<Integer> skipList = new SkipList<>(32, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        SkipList<Integer> skipList = new SkipList<>(12, Integer.MIN_VALUE, Integer.MAX_VALUE);
         LinkedList<Integer> list=new LinkedList<>();
 
         Set<Integer> set=new HashSet<>();
-        for (int i = 1; i <100000 ; i++) {
+        for (int i = 1; i <1000 ; i++) {
             set.add(i);
             list.add(i);
             skipList.add(i);
@@ -184,22 +187,22 @@ public class SkipList<T extends Comparable<? super T>> {
         endTime = System.currentTimeMillis();
         System.out.printf("createSkipList:%d\n", endTime - startTime);
         startTime = System.currentTimeMillis();
-        System.out.printf("find：%d\n", skipList.search(56798).getNext().getValue());
+        System.out.printf("find：%d\n", skipList.search(567).getNext().getValue());
         endTime = System.currentTimeMillis();
         System.out.printf("skipList spent:%d\n\n", endTime - startTime);
 
         startTime = System.currentTimeMillis();
-        boolean f= set.contains(56798);
+        boolean f= set.contains(567);
         endTime = System.currentTimeMillis();
         if (f) {
             System.out.printf("hash set spent：%d\n",endTime-startTime);
         }
         startTime = System.currentTimeMillis();
-         f= list.contains(56789);
+         f= list.contains(567);
         endTime = System.currentTimeMillis();
         if (f){
             System.out.printf("linked list spent：%d\n",endTime-startTime);
         }
-     //   skipList.print();
+        skipList.print();
     }
 }
