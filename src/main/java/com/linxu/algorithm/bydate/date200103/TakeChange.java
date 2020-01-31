@@ -1,5 +1,7 @@
 package com.linxu.algorithm.bydate.date200103;
 
+import java.util.Arrays;
+
 /**
  * @author Lx
  * @date 12月
@@ -31,28 +33,21 @@ public class TakeChange {
      * 此时则不可以用贪心算法，而是应该用动态规划。因为此时前n-1项之和不再小于第n项的值，所以贪心不再成立。
      * 例如：8元如果用贪心查找，每次都选最大的，那我们找不到解，而实际上可以用两张4元就可以解决。
      */
-    public static int dp(int[] coins, int target) {
-        //lack illegal adjust
-        int[] dp = new int[target + 1];
+    public static int dp(int[] coins, int amount) {
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
         dp[0] = 0;
-        //所有的币值都可以由N张1元组成
-        for (int i = 0; i <= target; i++) {
-            dp[i] = i;
-        }
-        //如果当前金额为现有货币币种，那一张就够。
-        for (int i = 0; i < coins.length; i++) {
-            dp[coins[i]] = 1;
-        }
-        //dp
-        for (int i = 1; i < target + 1; i++) {
+        for (int i = 1; i <= amount; i++) {
             for (int j = 0; j < coins.length; j++) {
-                //金额大于当前金额即跳过
-                if (coins[j] <= i)
-                    //dp[i]张数更少或者是放入这个币值之后 数量更少。
-                    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+                if (coins[j] <= i) {
+                    //这个是达到A的关键，如果原本是INF，那么相加之后会是负数，则不能代入
+                    if (dp[i - coins[j]] != Integer.MAX_VALUE) {
+                        dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+                    }
+                }
             }
         }
-        return dp[target];
+        return dp[amount] == Integer.MAX_VALUE ? -1 : dp[amount];
     }
 
     public static void main(String[] args) {
