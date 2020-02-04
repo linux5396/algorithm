@@ -19,6 +19,15 @@ import java.util.*;
  * 执行顺序: A -> B -> (待命) -> A -> B -> (待命) -> A -> B.
  */
 public class TaskDispatcher {
+    /**
+     * O(tasks.length)
+     * 0(1) space.
+     * 体现贪心的地方在于向每个bucket放入任务的时候都是尽可能找数量最大的
+     *
+     * @param tasks
+     * @param n
+     * @return
+     */
     public int leastInterval(char[] tasks, int n) {
         if (tasks == null || (tasks.length == 0) || tasks.length > 10000) {
             return 0;
@@ -28,18 +37,20 @@ public class TaskDispatcher {
         }
         Map<Character, Integer> map = new HashMap<>(26);
         int buckets = 0;
+        //有多少个都是最大的，决定了最后一个桶的大小
         int mulMaxEqualsNumTask = 0;
         for (Character ch : tasks) {
             int count = map.getOrDefault(ch, 0);
             map.put(ch, ++count);
-            //最大的决定buckets
+            //任务数最大的决定buckets
             buckets = Math.max(buckets, count);
         }
         for (Map.Entry<Character, Integer> entry : map.entrySet()) {
             if (entry.getValue() == buckets)
                 mulMaxEqualsNumTask++;
         }
-        return Math.max((n + 1) * buckets + mulMaxEqualsNumTask,tasks.length );
+        //每个桶的大小N+1，放入顺序总是放数据最多的。
+        return Math.max((n + 1) * buckets + mulMaxEqualsNumTask, tasks.length);
     }
 
     public static void main(String[] args) {
