@@ -49,10 +49,11 @@ public class GetRainWater {
         int[] rightCache = new int[height.length];
         rightCache[height.length - 1] = height[height.length - 1];
         for (int i = 1; i < height.length; i++) {
-            leftCache[i] = Math.max(height[i], height[i - 1]);
+            //leftCache[i]=i左边最大的柱子高度，利用leftCache[i-1]与height[i]比较即可
+            leftCache[i] = Math.max(height[i], leftCache[i - 1]);
         }
-        for (int i = leftCache.length - 1; i >= 0; i--) {
-            rightCache[i] = Math.max(height[i], height[i + 1]);
+        for (int i = height.length - 2; i >= 0; i--) {
+            rightCache[i] = Math.max(height[i], rightCache[i + 1]);
         }
         for (int i = 1; i < height.length - 1; i++) {
             capacity += Math.min(leftCache[i], rightCache[i]) - height[i];
@@ -63,7 +64,6 @@ public class GetRainWater {
     /**
      * 双指针优化法：在备忘录法的基础上进行分析
      * 如果能够在计算备忘录的过程同时进行判断，就能够省下不必要的空间。
-     *
      */
     public int trapInDoubleP(int[] height) {
         if (height == null || height.length == 0) {
