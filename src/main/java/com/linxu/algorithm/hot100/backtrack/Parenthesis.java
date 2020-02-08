@@ -27,7 +27,7 @@ public class Parenthesis {
     }
 
     private void track(List<String> list, String cur, int open, int close, int max) {
-        if (cur.length() == max<<1) {
+        if (cur.length() == max << 1) {
             list.add(cur);
             return;
         }
@@ -38,4 +38,21 @@ public class Parenthesis {
             track(list, cur + ")", open, close + 1, max);
         }
     }
+
+    private void trackReverse(List<String> list, String cur, int open, int close, int max) {
+        if (cur.length() == max << 1) {
+            list.add(cur);
+            return;
+        }
+        //剪枝左括号可以使用的个数严格大于右括号可以使用的个数，才剪枝，注意这个细节
+        if (open > close)
+            return;
+        if (open > 0) {
+            track(list, cur + "(", open - 1, close, max);
+        }
+        if (close > 0) {
+            track(list, cur + ")", open, close - 1, max);
+        }
+    }
+
 }
