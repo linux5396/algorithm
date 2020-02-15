@@ -1,7 +1,11 @@
 package com.linxu.algorithm.bydate.date191108;
 
+import com.linxu.algorithm.data_struct.Heap;
 import com.linxu.algorithm.sort.Sorts;
 import com.linxu.algorithm.utils.GenerationUtil;
+
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 /**
  * @author linxu
@@ -12,6 +16,7 @@ import com.linxu.algorithm.utils.GenerationUtil;
 public class FindTheLeastK {
     /**
      * 特点：速度快，但是修改原本数组的数据位置，同时需要将数组完全加载入内存
+     *
      * @param arr     arr
      * @param k       kth
      * @param useSort 是否使用排序进行
@@ -78,9 +83,9 @@ public class FindTheLeastK {
         }
         int[] container = new int[k];
         //first round add without check full status.
-        for (int i = 0; i < k; i++) {
-            System.arraycopy(arr, 0, container, 0, k);
-        }
+
+        System.arraycopy(arr, 0, container, 0, k);
+
         //next do
         for (int i = k; i < arr.length; i++) {
             //每次都找出容器中的最大数值的IDX与数值
@@ -92,9 +97,40 @@ public class FindTheLeastK {
         return container;
     }
 
+    /**
+     * top k的大顶堆解法
+     * @param arr
+     * @param k
+     * @return
+     */
+    public static int[] findKInHeap(int[] arr, int k) {
+        //solve special case
+        if (arr == null || arr.length == 0 || k > arr.length) {
+            return null;
+        }
+        int[] container = new int[k];
+        PriorityQueue<Integer> maxTopHeap = new PriorityQueue<>((o1, o2) -> o2 - o1);
+        for (int i = 0; i < k; i++) {
+            maxTopHeap.add(arr[i]);
+        }
+        for (int i = k; i < arr.length; i++) {
+            int maxEle = maxTopHeap.poll();
+            if (maxEle > arr[i]) {
+                maxTopHeap.add(arr[i]);
+            } else {
+                maxTopHeap.add(maxEle);
+            }
+        }
+        for (int i = 0; i < k; i++) {
+            container[i] = maxTopHeap.poll();
+        }
+
+        return container;
+    }
+
 
     public static void main(String[] args) {
         int[] arr = {2, 4, 5, 67, 8, 1, 3, 1};
-        GenerationUtil.print(findKInContainer(arr, 3), false);
+        GenerationUtil.print(findKInHeap(arr, 3), false);
     }
 }
