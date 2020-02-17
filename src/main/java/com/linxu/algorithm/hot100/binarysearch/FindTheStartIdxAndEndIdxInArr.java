@@ -79,7 +79,9 @@ public class FindTheStartIdxAndEndIdxInArr {
     }
 
     /**
-     * 多次二分
+     * 多次二分；
+     * 查找左边界：最左的target idx
+     * 查找右边界：最右的target idx
      *
      * @param nums
      * @param target
@@ -88,6 +90,9 @@ public class FindTheStartIdxAndEndIdxInArr {
     public int[] searchRangeInBinarySearch(int[] nums, int target) {
         int[] targetRange = new int[2];
         Arrays.fill(targetRange, -1);
+        if (nums[0] > target || nums[nums.length - 1] < target) {
+            return targetRange;
+        }
         targetRange[1] = right_bound(nums, target);
         targetRange[0] = left_bound(nums, target);
         return targetRange;
@@ -107,8 +112,6 @@ public class FindTheStartIdxAndEndIdxInArr {
                 right = mid; // 注意
             }
         }
-        // target 比所有数都大
-        if (left == nums.length) return -1;
         // 类似之前算法的处理方式
         return nums[left] == target ? left : -1;
     }
@@ -120,20 +123,19 @@ public class FindTheStartIdxAndEndIdxInArr {
         while (left < right) {
             int mid = (left + right) / 2;
             if (nums[mid] == target) {
-                left = mid + 1; // 注意
+                left = mid+1; // 注意
             } else if (nums[mid] < target) {
                 left = mid + 1;
             } else if (nums[mid] > target) {
                 right = mid;
             }
         }
-        if (left == 0) return -1;
-        return nums[left-1] == target ? (left-1) : -1;
+        return nums[right - 1] == target ? (right - 1) : -1;
     }
 
 
     public static void main(String[] args) {
         int[] a = {1, 3, 3, 5, 7};
-        GenerationUtil.print(new FindTheStartIdxAndEndIdxInArr().searchRangeInBinarySearch(a, 2), false);
+        GenerationUtil.print(new FindTheStartIdxAndEndIdxInArr().searchRangeInBinarySearch(a, 3), false);
     }
 }
