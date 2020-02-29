@@ -11,6 +11,7 @@ import java.util.Stack;
  * @author linxu
  * @date 2019/9/16
  * <tip>take care of yourself.everything is no in vain.</tip>
+ * some goods link:https://www.cnblogs.com/dennyzhangdd/p/8516241.html
  */
 public class Sorts {
 
@@ -217,6 +218,7 @@ public class Sorts {
         }
     }
 
+
     private static void merge(int[] nums, int left, int middle, int right) {
         int[] tempArray = new int[right - left + 1];
         //左从左开始
@@ -243,6 +245,8 @@ public class Sorts {
         }
         //把合并后的数组覆盖到原本数组的对应位置上
         System.arraycopy(tempArray, 0, nums, left, tempArray.length);
+        //help gc but i think no main ful,the call stack frame is destroyed.
+        tempArray = null;
     }
 
     /**
@@ -312,8 +316,6 @@ public class Sorts {
     }
 
 
-
-
     //TEST
     public static void main(String[] args) {
         int[] arr = {7, 9, 2, 4, 1, 54};
@@ -331,7 +333,7 @@ public class Sorts {
         }
         GenerationUtil.pause();
         int[] arr2 = {9, 7, 2, 4, 1, 54};
-       // mergeSortNotRecursive(arr2);
+        // mergeSortNotRecursive(arr2);
         insertSort(arr2);
         GenerationUtil.print(arr2, false);
     }
