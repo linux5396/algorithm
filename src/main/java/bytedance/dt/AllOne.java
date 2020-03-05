@@ -154,6 +154,7 @@ public class AllOne {
     }
 
     private class DLinkedNode {
+
         int val;
         Set<String> keys;
         DLinkedNode pre, next;
