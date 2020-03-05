@@ -14,7 +14,7 @@ import java.util.Set;
  * |   |k2 |---->|    |k4|----> |    |k6 |
  * |+++++++|     |+++++++|      |++++++++|
  * <p>
- *     val1>val2>val3
+ * val1>val2>val3
  * </p>
  */
 public class AllOne {
@@ -29,7 +29,9 @@ public class AllOne {
     // 双向链表的尾
     private DLinkedNode tail;
 
-    /** Initialize your data structure here. */
+    /**
+     * Initialize your data structure here.
+     */
     public AllOne() {
         map1 = new HashMap<>();
         map2 = new HashMap<>();
@@ -39,7 +41,9 @@ public class AllOne {
         tail.pre = head;
     }
 
-    /** Inserts a new key <Key> with value 1. Or increments an existing key by 1. */
+    /**
+     * Inserts a new key <Key> with value 1. Or increments an existing key by 1.
+     */
     public void inc(String key) {
         // 如果map1中包含key
         if (map1.containsKey(key)) {
@@ -63,7 +67,9 @@ public class AllOne {
                 node.pre = newNode;
                 map2.put(val + 1, newNode);
                 preNode = newNode;
-            } else {    // 如果当前已经有统计次数为val+1的节点，只需key加入到Set中即可
+            } else if (preNode.val == val + 1) {    // 如果当前已经有统计次数为val+1的节点，只需key加入到Set中即可
+                //因为不存在pre.val<val+1的情况，所以pre要么等于val+1；
+                //要么大于；等于的时候直接加入；大于的时候直接创建
                 preNode.keys.add(key);
             }
             // 如果原节点在移除key后size为0，则删除该节点，并在map2中删除val->node的映射
@@ -91,7 +97,9 @@ public class AllOne {
         }
     }
 
-    /** Decrements an existing key by 1. If Key's value is 1, remove it from the data structure. */
+    /**
+     * Decrements an existing key by 1. If Key's value is 1, remove it from the data structure.
+     */
     public void dec(String key) {
         // 如果map1中包含key,进行处理，否则不做任何操作
         if (map1.containsKey(key)) {
@@ -120,7 +128,7 @@ public class AllOne {
                     node.next = newNode;
                     nextNode.pre = newNode;
                     map2.put(val - 1, newNode);
-                } else {    // 下一个节点的统计次数为val-1，将key加到下一节点的keys Set中
+                } else if (nextNode.val == val - 1) {    // 下一个节点的统计次数为val-1，将key加到下一节点的keys Set中
                     nextNode.keys.add(key);
                 }
             }
@@ -133,7 +141,9 @@ public class AllOne {
         }
     }
 
-    /** Returns one of the keys with maximal value. */
+    /**
+     * Returns one of the keys with maximal value.
+     */
     public String getMaxKey() {
         // 按照双向链表的定义，如果链表中存在节点（head和tail不算，dummy节点），则对应最大value的keys为head的下一个节点
         if (head.next == tail) {
@@ -143,7 +153,9 @@ public class AllOne {
         }
     }
 
-    /** Returns one of the keys with Minimal value. */
+    /**
+     * Returns one of the keys with Minimal value.
+     */
     public String getMinKey() {
         // 按照双向链表的定义，如果链表中存在节点（head和tail不算，dummy节点），则对应最小value的keys为tail的前一个节点
         if (tail.pre == head) {
@@ -158,6 +170,7 @@ public class AllOne {
         int val;
         Set<String> keys;
         DLinkedNode pre, next;
+
         public DLinkedNode(int val) {
             this.val = val;
             this.keys = new HashSet<>();
