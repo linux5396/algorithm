@@ -74,7 +74,7 @@ public class RedPackAlgorithm {
 
     public static void main(String[] args) {
         Double all = 0D;
-        for (Double d : redPack(1.0D, 10)
+        for (Double d : redPack(10.0D, 3)
                 ) {
             System.out.print(d + ",");
             all += d * 100;
