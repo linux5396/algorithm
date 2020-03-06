@@ -41,15 +41,80 @@ public class KthPermutation {
         finalRes[0] = new ArrayList<>();
         List<Character> tempRes = new ArrayList<>();
         boolean[] hasVisited = new boolean[n];
+        //存储阶乘
+        int[] factor = new int[n - 1];
+        int t = 1;
+        for (int i = 1; i < n; i++) {
+            t *= i;
+            factor[i - 1] = t;
+        }
         backtrack(string, k, tempRes, hasVisited, cur, finalRes);
         StringBuilder stringBuilder = new StringBuilder();
-        for (Character c : finalRes[0]
-                ) {
+        for (Character c : finalRes[0]) {
             stringBuilder.append(c);
         }
         return stringBuilder.toString();
     }
 
+    /**
+     * n 个数字有 n！种全排列，每种数字开头的全排列有 (n - 1)!种。
+     * 所以用 k / (n - 1)! 就可以得到第 k 个全排列是以第几个数字开头的。
+     * 用 k % (n - 1)! 就可以得到第 k 个全排列是某个数字开头的全排列中的第几个。
+     * 核心就是上面的公式
+     *
+     * @param n
+     * @param k
+     * @return
+     */
+    public static String inFast(int n, int k) {
+        boolean[] choosed = new boolean[n];//choosed[i]存储的是i+1是否被使用
+        int[] factorial = new int[n - 1];//factorial[i]存储的是i+1的阶乘
+        int temp = 1;
+        for (int i = 1; i < n; i++) {
+            temp *= i;
+            factorial[i - 1] = temp;
+        }
+        StringBuilder sb = new StringBuilder();
+        //注意
+        k--;//这里不能少，毕竟我们是从0开始数，而给的k是从1开始。
+        for (int i = n - 2; i >= 0; i--) {
+            //由于最长是N-1，因此，N-2用于表示阶乘（N-2）！
+            int count = 0;
+            int index = -1;
+            //用 k / (n - 1)! 就可以得到第 k 个全排列是以第几个数字开头的。
+            while (count < (k / factorial[i]) + 1) {
+                index++;
+                if (!choosed[index]) {
+                    count++;
+                }
+            }
+            choosed[index] = true;
+            sb.append(index + 1);
+            System.err.println(index + 1);
+            //k % (n - 1)! 就可以得到第 k 个全排列是某个数字开头的全排列中的第几个。 3** 表示3开头；余数表示3开头的第几个；
+            k %= factorial[i];
+        }
+        //实际只剩下一个
+        for (int i = 0; i < choosed.length; i++) {
+            if (!choosed[i]) {
+                sb.append(i + 1);
+                // break;
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 基于回溯法的排列，能够保证排列是有序的
+     *
+     * @param nums
+     * @param k
+     * @param tempIndex
+     * @param haveSeen
+     * @param cur
+     * @param finalRes
+     */
+    //TODO 剪枝
     private void backtrack(char[] nums, int k, List<Character> tempIndex, boolean[] haveSeen, int[] cur, List<Character>[] finalRes) {
         if (tempIndex.size() == nums.length) {
             cur[0]++;
@@ -84,8 +149,7 @@ public class KthPermutation {
     public static void permutationInBackTrack(char[] chars, int start, boolean[] visited, List<Character> temp) {
         times++;
         if (start == chars.length) {
-            for (Character c : temp
-                    ) {
+            for (Character c : temp) {
                 System.out.print(c + ",");
             }
             System.out.println("");
@@ -108,9 +172,9 @@ public class KthPermutation {
         //  System.out.println(new KthPermutation().getPermutation(3, 6));
         boolean[] visited = new boolean[5];
         Arrays.fill(visited, false);
-
-        permutationInBackTrack("abcde".toCharArray(), 0, visited, new ArrayList<>());
-        System.out.println(times);
+        System.out.println(inFast(4, 7));
+        //permutationInBackTrack("abcde".toCharArray(), 0, visited, new ArrayList<>());
+        // System.out.println(times);
     }
 
 }
