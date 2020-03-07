@@ -11,26 +11,29 @@ import com.linxu.algorithm.CostTime;
  */
 public class FindTheLackNum {
     @CostTime("N")
-    public int findTheFirstLack(int[] numbers) {
-        if (numbers == null || numbers.length == 0) {
-            return 0;
+    public int firstMissingPositive(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 1;
         }
-        int length = numbers.length;
-        for (int i = 0; i < length; i++) {
-            if (inRange(numbers[i], length) && !(numbers[numbers[i] - 1] == numbers[i])) {
-                swap(numbers, numbers[i] - 1, i);
+        int len = nums.length;
+        for (int i = 0; i < len; i++) {
+            if (inRange(len, nums[i]) && nums[i] != nums[nums[i] - 1]) {
+                swap(nums, i, nums[i] - 1);
+                //避免丢失
+                i--;
             }
         }
-        for (int i = 0; i < length; i++) {
-            if (numbers[i] != i + 1) {
-                return i + 1;
+        int i = 0;
+        for (; i < len; i++) {
+            if (nums[i] != i + 1) {
+                break;
             }
         }
-        return 0;
+        return i + 1;
     }
 
-    private boolean inRange(int number, int length) {
-        return number > 0 && number < length;
+    private boolean inRange(int length, int i) {
+        return i > 0 && i <= length;
     }
 
     private void swap(int[] numbers, int i, int j) {
@@ -40,7 +43,7 @@ public class FindTheLackNum {
     }
 
     public static void main(String[] args) {
-        int[] arr = new int[]{3, 4, 1, -1};
-        System.out.println(new FindTheLackNum().findTheFirstLack(arr));
+        int[] arr = new int[]{3, 4, -1, 1};
+        System.err.println(new FindTheLackNum().firstMissingPositive(arr));
     }
 }
