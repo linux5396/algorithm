@@ -20,14 +20,13 @@ public class MostValueOfCoins {
         if (coins.length == 1) {
             return coins[0];
         }
-        int[] nCoins = new int[coins.length + 1];
-        System.arraycopy(coins, 0, nCoins, 1, coins.length);
+        //fix the memory cost
         //0 - n-1
         int[] dp = new int[coins.length + 1];
         dp[0] = 0;
-        dp[1] = nCoins[1];
-        for (int i = 2; i < nCoins.length; i++) {
-            dp[i] = Math.max((nCoins[i] + dp[i - 2]), dp[i - 1]);
+        dp[1] = coins[0];
+        for (int i = 2; i <= coins.length; i++) {
+            dp[i] = Math.max((coins[i - 1] + dp[i - 2]), dp[i - 1]);
         }
         return dp[coins.length];
     }
@@ -39,7 +38,7 @@ public class MostValueOfCoins {
         if (coins.length == 1) {
             return coins[0];
         }
-        int max ;
+        int max;
         max = mvcInrecursive(coins, coins.length - 1);
         return max;
     }
