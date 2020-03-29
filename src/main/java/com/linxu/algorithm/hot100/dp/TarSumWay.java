@@ -1,8 +1,6 @@
-package com.linxu.algorithm.hot100;
+package com.linxu.algorithm.hot100.dp;
 
-import com.linxu.algorithm.utils.GenerationUtil;
-
-import java.util.Arrays;
+import com.linxu.algorithm.Recommend;
 
 /**
  * @author linxu
@@ -56,7 +54,7 @@ public class TarSumWay {
         }
         return dp[(int) packageSum];
     }
-
+    @Recommend
     public static int findTargetSumWaysTrue(int[] nums, int s) {
         int sum = 0;
         for (int i = 0; i < nums.length; i++) {
@@ -88,6 +86,8 @@ public class TarSumWay {
                 dp[i][j] = dp[i - 1][l] + dp[i - 1][r];
             }
         }
+        //FIXME 这里的sum+S，其实sum只是走出左边的，因为我们数组的定义是sum*2+1;
+        //实际是要求S
         return dp[len - 1][sum + s];
     }
 
